@@ -3,6 +3,7 @@ package com.parulrabh.dbs.articles
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -11,11 +12,17 @@ import com.parulrabh.dbs.model.ArticlesModel
 import com.squareup.picasso.Picasso
 
 class ArticlesAdapter(var articleList : List<ArticlesModel>?, var presenter : ArticlesPresenter) : RecyclerView.Adapter<ArticlesAdapter.ViewHolder>() {
-    inner class ViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         var txtTitle : TextView = itemView.findViewById(R.id.txtArticleTitle)
         var txtDate : TextView = itemView.findViewById(R.id.txtDate)
         var txtShortDescription : TextView = itemView.findViewById(R.id.txtShortDescription)
         var imgAvatar : ImageView = itemView.findViewById(R.id.imgAvatar)
+        init{
+            itemView.setOnClickListener(this)
+        }
+        override fun onClick(v: View?) {
+            presenter.callArticleDetails(articleList?.get(adapterPosition))
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
