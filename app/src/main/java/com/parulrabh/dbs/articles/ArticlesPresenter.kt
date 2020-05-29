@@ -1,6 +1,7 @@
 package com.parulrabh.dbs.articles
 
 import com.parulrabh.dbs.model.ArticlesModel
+import com.parulrabh.dbs.network.ArticleAPIResponse
 import com.parulrabh.dbs.network.GetArticlesSync
 import java.text.SimpleDateFormat
 import java.util.*
@@ -18,17 +19,17 @@ class ArticlesPresenter(var view : ArticlesContract.View, var articlesDataHandle
         return df.format(updatedDate?: Date())
     }
 
-    override fun callArticleDetails(id: Int?) {
-        view.onArticleSelected(id)
+    override fun callArticleDetails(articleData: ArticlesModel?) {
+        view.onArticleSelected(articleData)
     }
 
-    private fun fetchArticleResponse(response : GetArticlesSync.ArticleResponse<List<ArticlesModel>>) {
+    private fun fetchArticleResponse(response : ArticleAPIResponse<List<ArticlesModel>>) {
         when(response){
-            is GetArticlesSync.ArticleResponse.Success ->{
+            is ArticleAPIResponse.Success ->{
                 view.hideLoader()
                 view.displayArticles(response)
             }
-            is GetArticlesSync.ArticleResponse.Error ->{
+            is ArticleAPIResponse.Error ->{
                 view.hideLoader()
                 view.displayErrorDialog(response.message)
             }

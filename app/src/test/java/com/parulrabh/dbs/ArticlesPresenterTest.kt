@@ -5,6 +5,7 @@ import com.nhaarman.mockitokotlin2.any
 import com.parulrabh.dbs.articles.ArticlesContract
 import com.parulrabh.dbs.articles.ArticlesPresenter
 import com.parulrabh.dbs.model.ArticlesModel
+import com.parulrabh.dbs.network.ArticleAPIResponse
 import com.parulrabh.dbs.network.GetArticlesSync
 import org.junit.Before
 import org.junit.Test
@@ -14,11 +15,7 @@ import org.mockito.Mockito
 import org.mockito.Mockito.verify
 import org.mockito.junit.MockitoJUnitRunner
 
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
+
 @RunWith(MockitoJUnitRunner::class)
 class ArticlesPresenterTest {
 
@@ -68,9 +65,9 @@ class ArticlesPresenterTest {
         Mockito.`when`(getArticlesMock.getArticles(any())).thenAnswer() {
             val argument = it.arguments[0]
             val response =
-                argument as ((passResponseFunc: GetArticlesSync.ArticleResponse<List<ArticlesModel>>) -> Unit)
+                argument as ((passResponseFunc: ArticleAPIResponse<List<ArticlesModel>>) -> Unit)
             response.invoke(
-                GetArticlesSync.ArticleResponse.Success(
+                ArticleAPIResponse.Success(
                     listOf(
                         ArticlesModel(1, "test 1", 1230098907, "short description", "get avatar")
                     )
@@ -84,8 +81,8 @@ class ArticlesPresenterTest {
         Mockito.`when`(getArticlesMock.getArticles(any())).thenAnswer() {
             val argument = it.arguments[0]
             val response =
-                argument as ((passResponseFunc: GetArticlesSync.ArticleResponse<List<ArticlesModel>>) -> Unit)
-            response.invoke(GetArticlesSync.ArticleResponse.Error(message = "Error"))
+                argument as ((passResponseFunc: ArticleAPIResponse<List<ArticlesModel>>) -> Unit)
+            response.invoke(ArticleAPIResponse.Error(message = "Error"))
         }
     }
 }
