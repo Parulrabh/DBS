@@ -35,29 +35,23 @@ class ArticlesPresenterTest {
     //test when fetch article successful correct listener called
     @Test
     fun showArticle_fetchArticleAPISuccessful_listenerNotifiedWithCorrectData(){
-        Mockito.`when`(getArticlesMock.getArticles(any())).thenAnswer(){
-            val argument = it.arguments[0]
-            val response = argument as ((passResponseFunc : GetArticlesSync.ArticleResponse<List<ArticlesModel>>) -> Unit)
-            response.invoke(GetArticlesSync.ArticleResponse.Success(listOf(
-                ArticlesModel(1,"test 1",1230098907,"short description","get avatar"))))
-
-        }
+        getArticlesSuccess()
         articlePresenter.fetchArticles()
+        verify(articlesViewMock).displayLoader()
+        verify(articlesViewMock).hideLoader()
         verify(articlesViewMock).displayArticles(any())
     }
 
     //test when fetch article failure error listener called
     @Test
     fun showArticle_fetchArticleAPIFailure_listenerNotifiedWithError(){
-        Mockito.`when`(getArticlesMock.getArticles(any())).thenAnswer() {
-            val argument = it.arguments[0]
-            val response =
-                argument as ((passResponseFunc: GetArticlesSync.ArticleResponse<List<ArticlesModel>>) -> Unit)
-            response.invoke(GetArticlesSync.ArticleResponse.Error(message = "Error"))
-        }
+        getArticlesFailure()
         articlePresenter.fetchArticles()
+        verify(articlesViewMock).displayLoader()
+        verify(articlesViewMock).hideLoader()
         verify(articlesViewMock).displayErrorDialog(any())
     }
+
     @Test
     fun date_dateinSeconds_wrongDateReturned(){
         var dateString = articlePresenter.getDateDisplayFormat(1590694418)
@@ -68,5 +62,30 @@ class ArticlesPresenterTest {
     fun date_dateinMillisecond_correctDateReturned(){
         var dateString = articlePresenter.getDateDisplayFormat(1590694418000)
         assert(dateString == "2020-05-29")
+    }
+
+    private fun getArticlesSuccess() {
+        Mockito.`when`(getArticlesMock.getArticles(any())).thenAnswer() {
+            val argument = it.arguments[0]
+            val response =
+                argument as ((passResponseFunc: GetArticlesSync.ArticleResponse<List<ArticlesModel>>) -> Unit)
+            response.invoke(
+                GetArticlesSync.ArticleResponse.Success(
+                    listOf(
+                        ArticlesModel(1, "test 1", 1230098907, "short description", "get avatar")
+                    )
+                )
+            )
+
+        }
+    }
+
+    private fun getArticlesFailure() {
+        Mockito.`when`(getArticlesMock.getArticles(any())).thenAnswer() {
+            val argument = it.arguments[0]
+            val response =
+                argument as ((passResponseFunc: GetArticlesSync.ArticleResponse<List<ArticlesModel>>) -> Unit)
+            response.invoke(GetArticlesSync.ArticleResponse.Error(message = "Error"))
+        }
     }
 }
