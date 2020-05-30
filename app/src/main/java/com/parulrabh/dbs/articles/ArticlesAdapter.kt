@@ -38,7 +38,9 @@ class ArticlesAdapter(var articleList : List<ArticlesModel>?, var presenter : Ar
         holder.txtTitle.text = articleList?.get(position)?.title
         holder.txtShortDescription.text = articleList?.get(position)?.shortDescription
         Picasso.get().load(articleList?.get(position)?.avatar).into(holder.imgAvatar)
-        holder.txtDate.text = presenter.getDateDisplayFormat(articleList?.get(position)?.lastUpdate)
+        holder.txtDate.text = presenter.getDateDisplayFormat(articleList?.get(position)?.lastUpdate?.times(
+            1000
+        ))
     }
 
 }
