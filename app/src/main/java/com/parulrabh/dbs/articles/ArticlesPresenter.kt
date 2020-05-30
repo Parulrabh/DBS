@@ -28,8 +28,8 @@ class ArticlesPresenter(var view : ArticlesContract.View, var articlesDataHandle
             is ArticleAPIResponse.Success ->{
                 view.hideLoader()
                 //sort the list by update date before returning it to the view
-                response.data?.sortedByDescending { it.lastUpdate }
-                view.displayArticles(response.data)
+                var sortedList = response.data?.sortedByDescending { it.lastUpdate }
+                view.displayArticles(sortedList)
             }
             is ArticleAPIResponse.Error ->{
                 view.hideLoader()

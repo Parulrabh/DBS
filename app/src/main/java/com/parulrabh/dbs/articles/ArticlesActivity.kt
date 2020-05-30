@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.parulrabh.dbs.R
 import com.parulrabh.dbs.articledetail.ArticleDetailActivity
 import com.parulrabh.dbs.model.ArticlesModel
-import com.parulrabh.dbs.network.ArticleAPIResponse
 import com.parulrabh.dbs.network.GetArticlesSync
 import kotlinx.android.synthetic.main.activity_main.*
 
