@@ -1,8 +1,10 @@
 package com.parulrabh.dbs
 
+import android.content.SharedPreferences
 import com.nhaarman.mockitokotlin2.any
 import com.parulrabh.dbs.articledetail.ArticleDetailContract
 import com.parulrabh.dbs.articledetail.ArticleDetailPresenter
+import com.parulrabh.dbs.cache.CacheRepository
 import com.parulrabh.dbs.model.ArticleDetailModel
 import com.parulrabh.dbs.network.ArticleAPIResponse
 import com.parulrabh.dbs.network.GetArticleDetailSync
@@ -21,9 +23,15 @@ class ArticleDetailsPresenterTest {
     lateinit var articlesDetailViewMock : ArticleDetailContract.View
     @Mock
     lateinit var getArticlesDetailMock : GetArticleDetailSync
+    @Mock
+    lateinit var cacheRepositoryMock: CacheRepository
+    @Mock
+    lateinit var sharedPrefMock : SharedPreferences
     @Before
     fun setUp(){
         articleDetailPresenter = ArticleDetailPresenter(articlesDetailViewMock,getArticlesDetailMock)
+        cacheRepositoryMock = CacheRepository(sharedPrefMock)
+        articleDetailPresenter.setCacheRepository(cacheRepositoryMock)
     }
 
     //test when fetch article successful correct listener called

@@ -43,11 +43,11 @@ class ArticlesActivity : AppCompatActivity() ,ArticlesContract.View{
         progressBarArticles.visibility = GONE
     }
 
-    override fun displayArticles(response : ArticleAPIResponse<List<ArticlesModel>>) {
+    override fun displayArticles(response : List<ArticlesModel>?) {
         //set Adapter
         lstArticles.layoutManager = LinearLayoutManager(this)
         lstArticles.adapter =
-            ArticlesAdapter(response.data,presenter)
+            ArticlesAdapter(response,presenter)
     }
 
     override fun onArticleSelected(articleData : ArticlesModel?) {
